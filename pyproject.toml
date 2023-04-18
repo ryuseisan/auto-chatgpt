@@ -8,6 +8,7 @@ authors = ["RyuseiIshida <dev.ryusei@gmail.com>"]
 python = "^3.10"
 selenium = "^4.8.3"
 undetected-chromedriver = "^3.4.6"
+jupyterlab = "^3.6.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.3.0"
