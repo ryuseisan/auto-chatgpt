@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "autochatgpt"
+version = "0.1.0"
+description = ""
+authors = ["RyuseiIshida <dev.ryusei@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.3.0"
+notebook = "^6.5.4"
+jupyter = "^1.0.0"
+pyproject-flake8 = "^6.0.0"
+flake8-bugbear = "^23.3.23"
+flake8-docstrings = "^1.7.0"
+black = {extras = ["jupyter"], version = "^23.3.0"}
+isort = "^5.12.0"
+mypy = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+target-version = ['py310']
+line-length = 120
+
+[tool.isort]
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+known_local_folder=['config',]
+
+[tool.flake8]
+max-line-length = 120
+max-complexity = 18
+ignore = "E203,E266,W503,"
+
+[tool.mypy]
+python_version = "3.10"
+no_strict_optional = true
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests",]
+filterwarnings = ["ignore::DeprecationWarning",]
