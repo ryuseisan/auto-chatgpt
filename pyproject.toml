@@ -6,6 +6,8 @@ authors = ["RyuseiIshida <dev.ryusei@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+selenium = "^4.8.3"
+undetected-chromedriver = "^3.4.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.3.0"
