@@ -1,6 +1,6 @@
 # Auto-ChatGPT
 
-This is a Python project to automate the exchange of ChatGPT for the browser version using Selenium. This will allow efficient communication with the browser version of ChatGPT.
+This Python project leverages Selenium to automate interactions with the browser-based ChatGPT. As a result, it enables efficient communication with the browser version of ChatGPT without using an API.
 
 ## Table of Contents
 
