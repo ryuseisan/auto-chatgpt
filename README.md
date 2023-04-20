@@ -2,6 +2,8 @@
 
 This Python project leverages Selenium to automate interactions with the browser-based ChatGPT. As a result, it enables efficient communication with the browser version of ChatGPT without using an API.
 
+(Suggestions for a better project and package name are welcome, as the current ones do not seem quite appropriate.)
+
 ## Table of Contents
 
 - [Auto-ChatGPT](#auto-chatgpt)
