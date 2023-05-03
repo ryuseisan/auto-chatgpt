@@ -60,4 +60,4 @@ def skip_start_message(driver):
     time.sleep(random.uniform(1, 3))
     driver.find_elements(By.CSS_SELECTOR, "button.btn-neutral")[1].click()
     time.sleep(random.uniform(1, 3))
-    driver.find_element(By.CSS_SELECTOR, "button.btn-primary").click()
+    driver.find_elements(By.CSS_SELECTOR, "button.btn-primary")[1].click()
