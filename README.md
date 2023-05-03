@@ -9,9 +9,12 @@ This Python project leverages Selenium to automate interactions with the browser
 - [Auto-ChatGPT](#auto-chatgpt)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
+  - [Environment Setup](#environment-setup)
   - [Usage](#usage)
   - [Contributing](#contributing)
   - [License](#license)
+  - [Contributing](#contributing-1)
+  - [License](#license-1)
 
 ## Installation
 
@@ -43,13 +46,29 @@ To use this project, you need to install the dependencies by following these ste
   poetry install
   ```
 
+## Environment Setup
+
+To securely store your email address and password, create a `.env` file in the project's root directory by copying the `.env.example` file:
+
+```
+cp .env.example .env
+```
+
+Edit the `.env` file and replace `YOUR_EMAIL_ADDRESS` and `YOUR_PASSWORD` with your actual email address and password.
+
 ## Usage
 
 Set up a jupyter server or use vscode to run **autochat.ipynb**.
 
-Enter the appropriate email address and password in `login_openai()` or `login_google_account()` in your notebook.
+The email address and password are loaded from the `.env` file. This will open a Chrome window and navigate to the ChatGPT website. Follow the prompts in the terminal to start the conversation with ChatGPT.
 
-This will open a Chrome window and navigate to the ChatGPT website. Follow the prompts in the terminal to start the conversation with ChatGPT.
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or create an issue to discuss any potential improvements or bug fixes.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## Contributing
 
