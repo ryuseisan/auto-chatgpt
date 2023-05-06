@@ -13,12 +13,12 @@ from autochatgpt import login
 # from selenium.webdriver.support.ui import WebDriverWait
 
 
-class Chat:
+class ChatGPTBot:
     OPENAI_URL = "https://chat.openai.com/chat"
 
     def __init__(self, headless=True, wait=60):
         self.driver = self.set_driver(headless, wait)
-        self.driver.get(Chat.OPENAI_URL)
+        self.driver.get(ChatGPTBot.OPENAI_URL)
         self.login()
 
     def set_driver(self, headless, wait_time):
@@ -90,4 +90,4 @@ class Chat:
         return [gpt_element.text for gpt_element in gpt_elements]
 
     def resume_chat(self, chatid):
-        self.driver.get(Chat.OPENAI_URL + f"/c/{chatid}")
+        self.driver.get(ChatGPTBot.OPENAI_URL + f"/c/{chatid}")

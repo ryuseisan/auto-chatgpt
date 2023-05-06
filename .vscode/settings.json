@@ -24,5 +24,6 @@
   "python.linting.mypyEnabled": true,
   "python.linting.mypyPath": "${workspaceFolder}/.venv/bin/mypy",
   "python.testing.pytestEnabled": true,
-  "autoDocstring.docstringFormat": "google"
+  "autoDocstring.docstringFormat": "google",
+  "cSpell.words": ["autochat"]
 }
