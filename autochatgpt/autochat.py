@@ -14,9 +14,11 @@ from autochatgpt import login
 
 
 class Chat:
+    OPENAI_URL = "https://chat.openai.com/chat"
+
     def __init__(self, headless=True, wait=60):
         self.driver = self.set_driver(headless, wait)
-        self.driver.get("https://chat.openai.com/chat")
+        self.driver.get(Chat.OPENAI_URL)
         self.login()
 
     def set_driver(self, headless, wait_time):
@@ -72,3 +74,6 @@ class Chat:
             '//div[contains(@class, "group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]")]',
         )
         return [gpt_element.text for gpt_element in gpt_elements]
+
+    def resume_chat(self, chatid):
+        self.driver.get(Chat.OPENAI_URL + f"/c/{chatid}")
