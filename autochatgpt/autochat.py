@@ -33,6 +33,20 @@ class Chat:
         driver.implicitly_wait(wait_time)
         return driver
 
+    def set_chat_history_and_training(self, check):
+        # Open Data Controls settings window
+        self.driver.find_element(By.XPATH, '//div[@class="group relative" and @data-headlessui-state=""]').click()
+        self.driver.find_element(By.XPATH, '//a[contains(text(),"Settings")]').click()
+        self.driver.find_element(By.XPATH, '//button[contains(., "Data controls")]').click()
+
+        checked_value = self.driver.find_element(By.XPATH, "//button[@aria-checked]").get_attribute("aria-checked")
+        if checked_value != check:
+            # click Chat History and Training Button
+            self.driver.find_element(By.XPATH, '//button[contains(@id, "headlessui-switch-")]').click()
+
+        # close settings window
+        self.driver.find_element(By.XPATH, '//div[@class="sm:mt-0"]/button').click()
+
     def get_driver(self):
         return self.driver
 
