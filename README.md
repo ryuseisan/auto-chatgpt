@@ -54,7 +54,7 @@ To securely store your email address and password, create a `.env` file in the p
 cp .env.example .env
 ```
 
-Edit the `.env` file and replace `YOUR_EMAIL_ADDRESS` and `YOUR_PASSWORD` with your actual email address and password.
+Edit the .env file and replace YOUR_EMAIL_ADDRESS and YOUR_PASSWORD with your actual email address and password. Also, set ACCOUNT_TYPE to either "OPENAI" or "GOOGLE" depending on the type of account you are using for login.
 
 ## Usage
 
