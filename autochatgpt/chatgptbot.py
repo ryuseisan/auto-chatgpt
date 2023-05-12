@@ -65,14 +65,10 @@ class ChatGPTBot:
             raise ValueError("ACCOUNT_TYPE must be OPENAI or GOOGLE")
         login.skip_start_message(self.driver)
 
-    def set_gpt_model(self, model):
-        model_element_dic = {
-            "GPT-3.5": "//span[contains(text(), 'Default (GPT-3.5)')]",
-            "GPT-3.5-Legacy": "//span[contains(text(), 'Legacy (GPT-3.5)')]",
-            "GPT-4": "//span[contains(text(), 'GPT-4')]",
-        }
-        self.driver.find_element(By.XPATH, '//div[@class="relative w-full md:w-1/2 lg:w-1/3 xl:w-1/4"]//button').click()
-        self.driver.find_element(By.XPATH, model_element_dic.get(model)).click()
+    def set_gpt_model(self, model_version):
+        if model_version not in ["GPT-3.5", "GPT-4"]:
+            raise ValueError("model_version must be GPT-3.5 or GPT-4")
+        self.driver.find_element(By.XPATH, f"//button[contains(., '{model_version}')]").click()
 
     def send_prompt(self, prompt):
         textarea = self.driver.find_element(By.CSS_SELECTOR, "textarea")
