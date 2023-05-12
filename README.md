@@ -70,10 +70,3 @@ Contributions are welcome! Please feel free to submit a pull request or create a
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or create an issue to discuss any potential improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
