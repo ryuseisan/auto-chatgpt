@@ -56,7 +56,13 @@ class ChatGPTBot:
         load_dotenv(verbose=True)
         EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
         PASSWORD = os.getenv("PASSWORD")
-        login.login_openai(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+        ACCOUNT_TYPE = os.getenv("ACCOUNT_TYPE")
+        if ACCOUNT_TYPE == "OPENAI":
+            login.login_openai(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+        elif ACCOUNT_TYPE == "GOOGLE":
+            login.login_google_account(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+        else:
+            raise ValueError("ACCOUNT_TYPE must be OPENAI or GOOGLE")
         login.skip_start_message(self.driver)
 
     def set_gpt_model(self, model):
