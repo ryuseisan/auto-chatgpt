@@ -58,7 +58,7 @@ Edit the `.env` file and replace `YOUR_EMAIL_ADDRESS` and `YOUR_PASSWORD` with y
 
 ## Usage
 
-Set up a jupyter server or use vscode to run **autochat.ipynb**.
+Set up a jupyter server or use vscode to run **examples/autochat.ipynb**.
 
 The email address and password are loaded from the `.env` file. This will open a Chrome window and navigate to the ChatGPT website. Follow the prompts in the terminal to start the conversation with ChatGPT.
 
