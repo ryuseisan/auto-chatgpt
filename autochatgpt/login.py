@@ -36,23 +36,28 @@ def login_openai(driver, email_address, password):
     continue_button.click()
 
 
-def login_google_account(driver, password, email_address):
+def login_google_account(driver, email_address, password):
     # click the login button
     driver.find_element(By.CSS_SELECTOR, "button[data-provider='google']").click()
+    time.sleep(random.uniform(1, 3))
 
     # type email address
     driver.find_element(By.CSS_SELECTOR, "input[type='email']").send_keys(email_address)
-
     time.sleep(random.uniform(1, 3))
 
     # click next button
-    driver.find_elements(By.CSS_SELECTOR, "button[type='button']")[3].click()
+    driver.find_elements(By.TAG_NAME, "button")[3].click()
+    time.sleep(random.uniform(1, 3))
 
     # type password
-    driver.find_element(By.CSS_SELECTOR, "input[type='password']").send_keys(password)
+    try:
+        driver.find_element(By.CSS_SELECTOR, "input[type='password']").send_keys(password)
+    except Exception:
+        driver.find_element(By.XPATH, '//input[@name="Passwd"]').send_keys(password)
+    time.sleep(random.uniform(1, 3))
 
     # click next button
-    driver.find_elements(By.CSS_SELECTOR, "button[type='button']")[3].click()
+    driver.find_elements(By.TAG_NAME, "button")[1].click()
 
 
 def skip_start_message(driver):
