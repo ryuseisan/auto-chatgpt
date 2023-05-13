@@ -4,7 +4,10 @@ import time
 
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from autochatgpt import login
 
@@ -17,7 +20,8 @@ class ChatGPTBot:
     OPENAI_URL = "https://chat.openai.com/chat"
 
     def __init__(self, headless=True, wait=60):
-        self.driver = self.set_driver(headless, wait)
+        self.implicitly_wait_time = wait
+        self.driver = self.set_driver(headless, self.implicitly_wait_time)
         self.driver.get(ChatGPTBot.OPENAI_URL)
         self.login()
 
@@ -56,17 +60,19 @@ class ChatGPTBot:
         load_dotenv(verbose=True)
         EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
         PASSWORD = os.getenv("PASSWORD")
-        login.login_openai(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+        ACCOUNT_TYPE = os.getenv("ACCOUNT_TYPE")
+        if ACCOUNT_TYPE == "OPENAI":
+            login.login_openai(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+        elif ACCOUNT_TYPE == "GOOGLE":
+            login.login_google_account(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+        else:
+            raise ValueError("ACCOUNT_TYPE must be OPENAI or GOOGLE")
         login.skip_start_message(self.driver)
 
-    def set_gpt_model(self, model):
-        model_element_dic = {
-            "GPT-3.5": "//span[contains(text(), 'Default (GPT-3.5)')]",
-            "GPT-3.5-Legacy": "//span[contains(text(), 'Legacy (GPT-3.5)')]",
-            "GPT-4": "//span[contains(text(), 'GPT-4')]",
-        }
-        self.driver.find_element(By.XPATH, '//div[@class="relative w-full md:w-1/2 lg:w-1/3 xl:w-1/4"]//button').click()
-        self.driver.find_element(By.XPATH, model_element_dic.get(model)).click()
+    def set_gpt_model(self, model_version):
+        if model_version not in ["GPT-3.5", "GPT-4"]:
+            raise ValueError("model_version must be GPT-3.5 or GPT-4")
+        self.driver.find_element(By.XPATH, f"//button[contains(., '{model_version}')]").click()
 
     def send_prompt(self, prompt):
         textarea = self.driver.find_element(By.CSS_SELECTOR, "textarea")
@@ -82,10 +88,31 @@ class ChatGPTBot:
         )
         return [user_element.text for user_element in user_elements]
 
-    def get_gpt_response(self):
+    def get_gpt_response(self, timeout=60):
+        # Temporarily disable implicit wait
+        self.driver.implicitly_wait(0)
+
+        try:
+            # Check if the element that is being output exists
+            WebDriverWait(self.driver, 1).until(
+                EC.presence_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]'))
+            )
+
+            # If it exists, wait until the output is finished
+            WebDriverWait(self.driver, timeout).until(
+                EC.invisibility_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]'))
+            )
+        except TimeoutException:
+            # If the element doesn't exist, continue to get the text
+            pass
+        finally:
+            # Re-enable implicit wait
+            self.driver.implicitly_wait(self.implicitly_wait_time)
+
+        # Get the element after the output is finished
         gpt_elements = self.driver.find_elements(
             By.XPATH,
-            '//div[contains(@class, "group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]")]',
+            '//div[contains(@class, "markdown")]',
         )
         return [gpt_element.text for gpt_element in gpt_elements]
 
