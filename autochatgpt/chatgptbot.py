@@ -4,7 +4,10 @@ import time
 
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from autochatgpt import login
 
@@ -17,7 +20,8 @@ class ChatGPTBot:
     OPENAI_URL = "https://chat.openai.com/chat"
 
     def __init__(self, headless=True, wait=60):
-        self.driver = self.set_driver(headless, wait)
+        self.implicitly_wait_time = wait
+        self.driver = self.set_driver(headless, self.implicitly_wait_time)
         self.driver.get(ChatGPTBot.OPENAI_URL)
         self.login()
 
@@ -84,10 +88,31 @@ class ChatGPTBot:
         )
         return [user_element.text for user_element in user_elements]
 
-    def get_gpt_response(self):
+    def get_gpt_response(self, timeout=60):
+        # Temporarily disable implicit wait
+        self.driver.implicitly_wait(0)
+
+        try:
+            # Check if the element that is being output exists
+            WebDriverWait(self.driver, 1).until(
+                EC.presence_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]'))
+            )
+
+            # If it exists, wait until the output is finished
+            WebDriverWait(self.driver, timeout).until(
+                EC.invisibility_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]'))
+            )
+        except TimeoutException:
+            # If the element doesn't exist, continue to get the text
+            pass
+        finally:
+            # Re-enable implicit wait
+            self.driver.implicitly_wait(self.implicitly_wait_time)
+
+        # Get the element after the output is finished
         gpt_elements = self.driver.find_elements(
             By.XPATH,
-            '//div[contains(@class, "group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]")]',
+            '//div[contains(@class, "markdown")]',
         )
         return [gpt_element.text for gpt_element in gpt_elements]
 
