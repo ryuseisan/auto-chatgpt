@@ -12,9 +12,8 @@ This Python project leverages Selenium to automate interactions with the browser
   - [Environment Setup](#environment-setup)
   - [Usage](#usage)
   - [Contributing](#contributing)
+  - [Disclaimer](#disclaimer)
   - [License](#license)
-  - [Contributing](#contributing-1)
-  - [License](#license-1)
 
 ## Installation
 
@@ -66,7 +65,17 @@ The email address and password are loaded from the `.env` file. This will open a
 
 Contributions are welcome! Please feel free to submit a pull request or create an issue to discuss any potential improvements or bug fixes.
 
+## Disclaimer
+
+This software is experimental in nature, and upon use, the user agrees to the following terms and conditions
+
+1. This software is experimental and is provided without any warranty.
+2. The user is solely responsible for the use of this software.
+3. The developer is not responsible for any outcomes resulting from the use of this software.
+4. Users agree to abide by the terms of use of OpenAI's ChatGPT. For more details, please visit [here](https://openai.com/policies/usage-policies).
+
+If you do not agree to these terms, you should not use this software.
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
