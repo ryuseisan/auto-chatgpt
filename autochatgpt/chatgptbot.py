@@ -116,5 +116,9 @@ class ChatGPTBot:
         )
         return [gpt_element.text for gpt_element in gpt_elements]
 
-    def resume_chat(self, chatid):
-        self.driver.get(ChatGPTBot.OPENAI_URL + f"/c/{chatid}")
+    def resume_conversation(self, chatid):
+        resume_chat_page = ChatGPTBot.OPENAI_URL + f"/c/{chatid}"
+        self.driver.get(resume_chat_page)
+        time.sleep(1)
+        if self.driver.current_url != resume_chat_page:
+            raise ValueError("Unable to load conversation page. Check if the chatid is correct.")
