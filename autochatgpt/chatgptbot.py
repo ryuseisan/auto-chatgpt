@@ -17,7 +17,7 @@ from autochatgpt import login
 
 
 class ChatGPTBot:
-    OPENAI_URL = "https://chat.openai.com/chat"
+    OPENAI_URL = "https://chat.openai.com/"
 
     def __init__(self, headless=True, wait=60):
         self.implicitly_wait_time = wait
