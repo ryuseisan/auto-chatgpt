@@ -39,10 +39,16 @@ To use this project, you need to install the dependencies by following these ste
   pip install .
   ```
 
+- With Rye:
+
+  ```
+  rye sync --no-dev
+  ```
+
 - With Poetry:
 
   ```
-  poetry install
+  poetry install --no-dev
   ```
 
 ## Environment Setup
