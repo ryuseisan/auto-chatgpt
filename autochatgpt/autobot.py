@@ -1,3 +1,4 @@
+"""This module contains Class for automation in to OpenAI's ChatGPT."""
 import os
 import random
 import time
@@ -11,20 +12,39 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from autochatgpt import login
 
+load_dotenv(verbose=False)
+AUTO_CHATGPT_EMAIL_ADDRESS = os.getenv("AUTO_CHATGPT_EMAIL_ADDRESS")
+AUTO_CHATGPT_PASSWORD = os.getenv("AUTO_CHATGPT_PASSWORD")
+AUTO_CHATGPT_ACCOUNT_TYPE = os.getenv("AUTO_CHATGPT_ACCOUNT_TYPE")
+
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.support import expected_conditions as EC
 # from selenium.webdriver.support.ui import WebDriverWait
 
 
-class ChatGPTBot:
+class AutoBot:
+    """AutoBot."""
+
     OPENAI_URL = "https://chat.openai.com/"
 
-    def __init__(self, headless=True, wait=60):
+    def __init__(self, headless: bool = True, wait: int = 60) -> None:
+        """Initialize AutoBot.
+
+        Args:
+            headless (bool, optional): headless. Defaults to True.
+            wait (int, optional): implicitly_wait_time
+        """
         self.implicitly_wait_time = wait
         self.driver = self.set_driver(headless, self.implicitly_wait_time)
-        self.driver.get(ChatGPTBot.OPENAI_URL)
+        self.driver.get(AutoBot.OPENAI_URL)
 
-    def set_driver(self, headless, wait_time):
+    def set_driver(self, headless: bool, wait_time: int) -> uc.Chrome:
+        """Set driver.
+
+        Args:
+            headless (bool): headless
+            wait_time (int): implicitly_wait_time
+        """
         options = uc.ChromeOptions()
         if headless:
             options.add_argument("--headless")
@@ -36,7 +56,12 @@ class ChatGPTBot:
         driver.implicitly_wait(wait_time)
         return driver
 
-    def set_chat_history_and_training(self, check):
+    def set_chat_history_and_training(self, check: bool) -> None:
+        """Set Chat History and Training.
+
+        Args:
+            check (bool): True or False
+        """
         # Open Data Controls settings window
         self.driver.find_element(By.XPATH, '//div[@class="group relative" and @data-headlessui-state=""]').click()
         self.driver.find_element(By.XPATH, '//a[contains(text(),"Settings")]').click()
@@ -52,30 +77,62 @@ class ChatGPTBot:
         # close settings window
         self.driver.find_element(By.XPATH, '//button[contains(@class, "inline-block")]').click()
 
-    def get_driver(self):
+    def get_driver(self) -> uc.Chrome:
+        """Get driver.
+
+        Returns
+            uc.Chrome: driver
+        """
         return self.driver
 
-    def auto_login(self):
+    def auto_login(
+        self,
+        email_address: str = AUTO_CHATGPT_EMAIL_ADDRESS,
+        password: str = AUTO_CHATGPT_PASSWORD,
+        account_type: str = AUTO_CHATGPT_ACCOUNT_TYPE,
+    ) -> None:
+        """Login to ChatGPT.
+
+        Args:
+            email_address (str, optional): Your email address.
+                Defaults is AUTO_CHATGPT_EMAIL_ADDRESS environment variable.
+            password (str, optional): Your password.
+                Defaults is AUTO_CHATGPT_PASSWORD environment variable.
+            account_type (str, optional): Your account type.
+                Defaults is AUTO_CHATGPT_ACCOUNT_TYPE environment variable.
+
+        Raises:
+            ValueError: AUTO_CHATGPT_ACCOUNT_TYPE must be OPENAI or GOOGLE
+        """
         # login.bypassing_cloudflare(driver)
         login.click_login_button(self.driver)
-        load_dotenv(verbose=True)
-        EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-        PASSWORD = os.getenv("PASSWORD")
-        ACCOUNT_TYPE = os.getenv("ACCOUNT_TYPE")
-        if ACCOUNT_TYPE == "OPENAI":
-            login.login_openai(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
-        elif ACCOUNT_TYPE == "GOOGLE":
-            login.login_google_account(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+
+        if account_type == "OPENAI":
+            login.login_openai(self.driver, email_address=email_address, password=password)
+        elif account_type == "GOOGLE":
+            login.login_google_account(self.driver, email_address=email_address, password=password)
         else:
-            raise ValueError("ACCOUNT_TYPE must be OPENAI or GOOGLE")
+            msg = "AUTO_CHATGPT_ACCOUNT_TYPE must be OPENAI or GOOGLE"
+            raise ValueError(msg)
         login.skip_start_message(self.driver)
 
-    def set_gpt_model(self, model_version):
+    def set_gpt_model(self, model_version: str) -> None:
+        """Set GPT model.
+
+        Args:
+            model_version (str): GPT model version (GPT-3.5 or GPT-4)
+        """
         if model_version not in ["GPT-3.5", "GPT-4"]:
-            raise ValueError("model_version must be GPT-3.5 or GPT-4")
+            msg = "model_version must be GPT-3.5 or GPT-4"
+            raise ValueError(msg)
         self.driver.find_element(By.XPATH, f"//button[contains(., '{model_version}')]").click()
 
-    def send_prompt(self, prompt):
+    def send_prompt(self, prompt: str) -> None:
+        """Send prompt.
+
+        Args:
+            prompt (str): Send prompt to ChatGPT
+        """
         textarea = self.driver.find_element(By.CSS_SELECTOR, "textarea")
         textarea.clear()
         textarea.send_keys(prompt)
@@ -90,19 +147,24 @@ class ChatGPTBot:
     #     )
     #     return [user_element.text for user_element in user_elements]
 
-    def get_gpt_response(self, timeout=60):
+    def get_gpt_response(self, timeout: int = 60) -> str:
+        """Get GPT response.
+
+        Args:
+            timeout (int, optional): Timeout. Defaults to 60.
+        """
         # Temporarily disable implicit wait
         self.driver.implicitly_wait(0)
 
         try:
             # Check if the element that is being output exists
             WebDriverWait(self.driver, 1).until(
-                EC.presence_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]'))
+                EC.presence_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]')),
             )
 
             # If it exists, wait until the output is finished
             WebDriverWait(self.driver, timeout).until(
-                EC.invisibility_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]'))
+                EC.invisibility_of_element_located((By.XPATH, '//div[contains(@class, "result-streaming")]')),
             )
         except TimeoutException:
             # If the element doesn't exist, continue to get the text
@@ -118,9 +180,15 @@ class ChatGPTBot:
         )
         return [gpt_element.text for gpt_element in gpt_elements]
 
-    def resume_conversation(self, chatid):
-        resume_chat_page = ChatGPTBot.OPENAI_URL + f"/c/{chatid}"
+    def resume_conversation(self, chatid: str) -> None:
+        """Resume conversation.
+
+        Args:
+            chatid (str): chatid
+        """
+        resume_chat_page = AutoBot.OPENAI_URL + f"/c/{chatid}"
         self.driver.get(resume_chat_page)
         time.sleep(1)
         if self.driver.current_url != resume_chat_page:
-            raise ValueError("Unable to load conversation page. Check if the chatid is correct.")
+            msg = "Unable to load conversation page. Check if the chatid is correct."
+            raise ValueError(msg)

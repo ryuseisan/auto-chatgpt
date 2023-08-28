@@ -22,12 +22,6 @@ build-backend = "hatchling.build"
 managed = true
 dev-dependencies = [
     "pytest~=7.3.1",
-    "notebook~=6.5.4",
-    "jupyter~=1.0.0",
-    "pyproject-flake8~=5.0.4.post1",
-    "flake8-bugbear~=23.3.12",
-    "flake8-docstrings~=1.7.0",
-    "black[jupyter]~=23.3.0",
 ]
 
 [tool.hatch.metadata]
@@ -47,30 +41,46 @@ jupyterlab = "^3.6.3"
 python-dotenv = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.3.0"
-notebook = "^6.5.4"
-jupyter = "^1.0.0"
-pyproject-flake8 = "^6.0.0"
-flake8-bugbear = "^23.3.23"
-flake8-docstrings = "^1.7.0"
-black = {extras = ["jupyter"], version = "^23.3.0"}
-isort = "^5.12.0"
-mypy = "^1.2.0"
+pytest = "^7.3.1"
+
+[tool.ruff]
+select = [
+    "ALL",
+]
+ignore = [
+    "ERA", # Found commented-out code
+    "BLE", # flake8-blind-except
+    "FBT", # flake8-boolean-trap
+    "TRY", # tryceratops
+    "EXE", # flake8-executable
+    "ICN", # flake8-import-conventions
+    "RET", #flake8-return
+    "SIM", #flake8-simplify
+    "TCH", # flake8-type-checking
+    "G004", # Logging statement uses f-string
+    "PD901", # df is a bad variable name. Be kinder to your future self.
+    "RUF001", # String contains ambiguous {}. Did you mean {}?
+    "RUF002", # Docstring contains ambiguous {}. Did you mean {}?
+    "RUF003", # Comment contains ambiguous {}. Did you mean {}?
+    "PLC1901", # {existing} can be simplified to {replacement} as an empty string is falsey
+    "D203", # 1 blank line required before class docstring
+    "D407", # Missing dashed underline after section ("{name}")
+    "E731", # Do not assign a lambda expression, use a def
+    "E203", # Whitespace before '{symbol}'
+    "PERF203", # try-except within a loop incurs performance overhead
+    "PLR2004", # magic number
+    "B904", # Within an except clause, raise exceptions with ...
+    "ANN101", # missing-type-self: because no type hint is attached to the argument self
+    "ANN102", # missing-type-cls: because no type hint is attached to the argument cls
+    "ANN003", # Missing type annotation for **{name}
+]
+unfixable = ["F401", "F841", "E401"]
+exclude = [".venv"]
+line-length = 120
 
 [tool.black]
 target-version = ['py310']
 line-length = 120
-
-[tool.isort]
-line_length = 120
-multi_line_output = 3
-include_trailing_comma = true
-known_local_folder=['config',]
-
-[tool.flake8]
-max-line-length = 120
-max-complexity = 18
-ignore = "E203,E266,W503,"
 
 [tool.mypy]
 python_version = "3.10"
