@@ -1,27 +1,34 @@
 """This module contains Class for automation in to OpenAI's ChatGPT."""
+import os
 import random
 import time
 
 import undetected_chromedriver as uc
+from dotenv import load_dotenv
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from autochatgpt import AUTO_CHATGPT_ACCOUNT_TYPE, AUTO_CHATGPT_EMAIL_ADDRESS, AUTO_CHATGPT_PASSWORD, login
+from autochatgpt import login
+
+load_dotenv(verbose=False)
+AUTO_CHATGPT_EMAIL_ADDRESS = os.getenv("AUTO_CHATGPT_EMAIL_ADDRESS")
+AUTO_CHATGPT_PASSWORD = os.getenv("AUTO_CHATGPT_PASSWORD")
+AUTO_CHATGPT_ACCOUNT_TYPE = os.getenv("AUTO_CHATGPT_ACCOUNT_TYPE")
 
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.support import expected_conditions as EC
 # from selenium.webdriver.support.ui import WebDriverWait
 
 
-class ChatGPTBot:
-    """ChatGPTBot."""
+class AutoBot:
+    """AutoBot."""
 
     OPENAI_URL = "https://chat.openai.com/"
 
     def __init__(self, headless: bool = True, wait: int = 60) -> None:
-        """Initialize ChatGPTBot.
+        """Initialize AutoBot.
 
         Args:
             headless (bool, optional): headless. Defaults to True.
@@ -29,7 +36,7 @@ class ChatGPTBot:
         """
         self.implicitly_wait_time = wait
         self.driver = self.set_driver(headless, self.implicitly_wait_time)
-        self.driver.get(ChatGPTBot.OPENAI_URL)
+        self.driver.get(AutoBot.OPENAI_URL)
 
     def set_driver(self, headless: bool, wait_time: int) -> uc.Chrome:
         """Set driver.
@@ -179,7 +186,7 @@ class ChatGPTBot:
         Args:
             chatid (str): chatid
         """
-        resume_chat_page = ChatGPTBot.OPENAI_URL + f"/c/{chatid}"
+        resume_chat_page = AutoBot.OPENAI_URL + f"/c/{chatid}"
         self.driver.get(resume_chat_page)
         time.sleep(1)
         if self.driver.current_url != resume_chat_page:

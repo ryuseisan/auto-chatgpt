@@ -1,9 +1,9 @@
-from autochatgpt.chatgptbot import ChatGPTBot
+from autochatgpt.autobot import AutoBot
 
 
-def test_chatgptbot():
+def test_autobot():
     # Test ChatGPTBot class
-    bot = ChatGPTBot(headless=True, wait=10)
+    bot = AutoBot(headless=True, wait=10)
     bot.auto_login()
     bot.set_gpt_model(model_version="GPT-3.5")
     bot.send_prompt(prompt="Hello, world!")
