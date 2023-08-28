@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from autochatgpt import ACCOUNT_TYPE, EMAIL_ADDRESS, PASSWORD, login
+from autochatgpt import AUTO_CHATGPT_ACCOUNT_TYPE, AUTO_CHATGPT_EMAIL_ADDRESS, AUTO_CHATGPT_PASSWORD, login
 
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.support import expected_conditions as EC
@@ -80,19 +80,22 @@ class ChatGPTBot:
 
     def auto_login(
         self,
-        email_address: str = EMAIL_ADDRESS,
-        password: str = PASSWORD,
-        account_type: str = ACCOUNT_TYPE,
+        email_address: str = AUTO_CHATGPT_EMAIL_ADDRESS,
+        password: str = AUTO_CHATGPT_PASSWORD,
+        account_type: str = AUTO_CHATGPT_ACCOUNT_TYPE,
     ) -> None:
         """Login to ChatGPT.
 
         Args:
-            email_address (str, optional): Your email address. Defaults is EMAIL_ADDRESS environment variable.
-            password (str, optional): Your password. Defaults is PASSWORD environment variable.
-            account_type (str, optional): Your account type. Defaults is ACCOUNT_TYPE environment variable.
+            email_address (str, optional): Your email address.
+                Defaults is AUTO_CHATGPT_EMAIL_ADDRESS environment variable.
+            password (str, optional): Your password.
+                Defaults is AUTO_CHATGPT_PASSWORD environment variable.
+            account_type (str, optional): Your account type.
+                Defaults is AUTO_CHATGPT_ACCOUNT_TYPE environment variable.
 
         Raises:
-            ValueError: ACCOUNT_TYPE must be OPENAI or GOOGLE
+            ValueError: AUTO_CHATGPT_ACCOUNT_TYPE must be OPENAI or GOOGLE
         """
         # login.bypassing_cloudflare(driver)
         login.click_login_button(self.driver)
@@ -102,7 +105,7 @@ class ChatGPTBot:
         elif account_type == "GOOGLE":
             login.login_google_account(self.driver, email_address=email_address, password=password)
         else:
-            msg = "ACCOUNT_TYPE must be OPENAI or GOOGLE"
+            msg = "AUTO_CHATGPT_ACCOUNT_TYPE must be OPENAI or GOOGLE"
             raise ValueError(msg)
         login.skip_start_message(self.driver)
 
