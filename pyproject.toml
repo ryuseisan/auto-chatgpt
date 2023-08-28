@@ -74,6 +74,9 @@ ignore = [
     "ANN102", # missing-type-cls: because no type hint is attached to the argument cls
     "ANN003", # Missing type annotation for **{name}
 ]
+unfixable = ["F401", "F841", "E401"]
+exclude = [".venv"]
+line-length = 120
 
 [tool.black]
 target-version = ['py310']

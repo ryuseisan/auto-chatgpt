@@ -1,4 +1,4 @@
-"""ChatGPTBot."""
+"""This module contains Class for automation in to OpenAI's ChatGPT."""
 import os
 import random
 import time
