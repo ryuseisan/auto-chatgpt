@@ -6,8 +6,8 @@ authors = [
     { name = "Ryusei", email = "dev.ryusei@gmail.com" }
 ]
 dependencies = [
-    "selenium~=4.8.3",
-    "undetected-chromedriver~=3.4.6",
+    "selenium>=4.11.2",
+    "undetected-chromedriver>=3.5.3",
     "python-dotenv~=1.0.0",
     "jupyterlab~=4.0.1",
 ]
@@ -41,8 +41,8 @@ authors = ["RyuseiIshida <dev.ryusei@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-selenium = "^4.8.3"
-undetected-chromedriver = "^3.4.6"
+selenium = "^4.11.2"
+undetected-chromedriver = "^3.5.3"
 jupyterlab = "^3.6.3"
 python-dotenv = "^1.0.0"
 

@@ -83,7 +83,7 @@ pyzmq==25.1.0
 requests==2.31.0
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
-selenium==4.8.3
+selenium==4.11.2
 send2trash==1.8.2
 six==1.16.0
 sniffio==1.3.0
@@ -98,7 +98,7 @@ traitlets==5.9.0
 trio==0.22.0
 trio-websocket==0.10.2
 typing-extensions==4.6.2
-undetected-chromedriver==3.4.7
+undetected-chromedriver==3.5.3
 uri-template==1.2.0
 urllib3==1.26.16
 wcwidth==0.2.6
