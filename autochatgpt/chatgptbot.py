@@ -23,7 +23,6 @@ class ChatGPTBot:
         self.implicitly_wait_time = wait
         self.driver = self.set_driver(headless, self.implicitly_wait_time)
         self.driver.get(ChatGPTBot.OPENAI_URL)
-        self.login()
 
     def set_driver(self, headless, wait_time):
         options = uc.ChromeOptions()
@@ -56,7 +55,7 @@ class ChatGPTBot:
     def get_driver(self):
         return self.driver
 
-    def login(self):
+    def auto_login(self):
         # login.bypassing_cloudflare(driver)
         login.click_login_button(self.driver)
         load_dotenv(verbose=True)
@@ -83,12 +82,13 @@ class ChatGPTBot:
         time.sleep(random.uniform(1, 5))
         self.driver.find_element(By.CSS_SELECTOR, "button.absolute").click()
 
-    def get_user_prompt(self):
-        user_elements = self.driver.find_elements(
-            By.XPATH,
-            '//div[contains(@class, "group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 dark:bg-gray-800")]',
-        )
-        return [user_element.text for user_element in user_elements]
+    # temporarily abolishing
+    # def get_user_prompt(self):
+    #     user_elements = self.driver.find_elements(
+    #         By.XPATH,
+    #         '//div[contains(@class, "group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 dark:bg-gray-800")]',
+    #     )
+    #     return [user_element.text for user_element in user_elements]
 
     def get_gpt_response(self, timeout=60):
         # Temporarily disable implicit wait
