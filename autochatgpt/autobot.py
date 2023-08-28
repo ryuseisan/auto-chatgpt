@@ -5,7 +5,7 @@ import time
 
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import ElementClickInterceptedException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -182,6 +182,13 @@ class AutoBot:
             '//div[contains(@class, "markdown")]',
         )
         return [gpt_element.text for gpt_element in gpt_elements]
+
+    def new_conversation(self) -> None:
+        """Create new conversation."""
+        try:
+            self.driver.find_element(By.LINK_TEXT, "New chat").click()
+        except ElementClickInterceptedException:
+            self.driver.find_element(By.LINK_TEXT, "Clear chat").click()
 
     def resume_conversation(self, chatid: str) -> None:
         """Resume conversation.
