@@ -5,7 +5,7 @@ import time
 
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
-from selenium.common.exceptions import ElementClickInterceptedException, TimeoutException
+from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -107,7 +107,10 @@ class AutoBot:
         Raises:
             ValueError: AUTO_CHATGPT_ACCOUNT_TYPE must be OPENAI or GOOGLE
         """
-        # login.bypassing_cloudflare(driver)
+        try:
+            login.bypassing_cloudflare(self.driver)
+        except NoSuchElementException:
+            pass  # If there is no Cloudflare Turnstile, skip it
         login.click_login_button(self.driver)
 
         if account_type == "OPENAI":
