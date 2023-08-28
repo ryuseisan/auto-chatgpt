@@ -75,7 +75,10 @@ class AutoBot:
             self.driver.find_element(By.XPATH, '//button[contains(@role, "switch")]').click()
 
         # close settings window
-        self.driver.find_element(By.XPATH, '//button[contains(@class, "inline-block")]').click()
+        self.driver.find_element(
+            By.XPATH,
+            "//button[@class='text-gray-500 transition hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200']",
+        ).click()
 
     def get_driver(self) -> uc.Chrome:
         """Get driver.

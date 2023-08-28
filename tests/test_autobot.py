@@ -5,6 +5,7 @@ def test_autobot():
     # Test ChatGPTBot class
     bot = AutoBot(headless=True, wait=10)
     bot.auto_login()
+    bot.set_chat_history_and_training(check=False)
     bot.set_gpt_model(model_version="GPT-3.5")
     bot.send_prompt(prompt="Hello, world!")
     # user_prompt = bot.get_user_prompt()
