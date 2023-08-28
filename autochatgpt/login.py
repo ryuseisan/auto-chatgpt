@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 def click_login_button(driver):
-    driver.find_element(By.CSS_SELECTOR, 'button[class="btn relative btn-primary"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'button[data-testid="login-button"]').click()
 
 
 def bypassing_cloudflare(driver):
@@ -31,7 +31,7 @@ def login_openai(driver, email_address, password):
     driver.find_element(By.CSS_SELECTOR, 'input[name="password"]').send_keys(password)
 
     # click continue button
-    continue_button = driver.find_element(By.CSS_SELECTOR, 'button[name="action"]')
+    continue_button = driver.find_element(By.CSS_SELECTOR, 'button[data-action-button-primary="true"]')
     time.sleep(random.uniform(1, 5))
     continue_button.click()
 
@@ -61,8 +61,5 @@ def login_google_account(driver, email_address, password):
 
 
 def skip_start_message(driver):
-    driver.find_element(By.CSS_SELECTOR, "button.btn-neutral").click()
-    time.sleep(random.uniform(1, 3))
-    driver.find_elements(By.CSS_SELECTOR, "button.btn-neutral")[1].click()
     time.sleep(random.uniform(1, 3))
     driver.find_elements(By.CSS_SELECTOR, "button.btn-primary")[1].click()
