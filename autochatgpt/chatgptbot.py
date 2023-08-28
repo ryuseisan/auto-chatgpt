@@ -1,16 +1,14 @@
 """This module contains Class for automation in to OpenAI's ChatGPT."""
-import os
 import random
 import time
 
 import undetected_chromedriver as uc
-from dotenv import load_dotenv
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from autochatgpt import login
+from autochatgpt import ACCOUNT_TYPE, EMAIL_ADDRESS, PASSWORD, login
 
 # from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.support import expected_conditions as EC
@@ -80,22 +78,29 @@ class ChatGPTBot:
         """
         return self.driver
 
-    def auto_login(self) -> None:
-        """Auto login.
+    def auto_login(
+        self,
+        email_address: str = EMAIL_ADDRESS,
+        password: str = PASSWORD,
+        account_type: str = ACCOUNT_TYPE,
+    ) -> None:
+        """Login to ChatGPT.
 
-        Raises
+        Args:
+            email_address (str, optional): Your email address. Defaults is EMAIL_ADDRESS environment variable.
+            password (str, optional): Your password. Defaults is PASSWORD environment variable.
+            account_type (str, optional): Your account type. Defaults is ACCOUNT_TYPE environment variable.
+
+        Raises:
             ValueError: ACCOUNT_TYPE must be OPENAI or GOOGLE
         """
         # login.bypassing_cloudflare(driver)
         login.click_login_button(self.driver)
-        load_dotenv(verbose=True)
-        EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-        PASSWORD = os.getenv("PASSWORD")
-        ACCOUNT_TYPE = os.getenv("ACCOUNT_TYPE")
-        if ACCOUNT_TYPE == "OPENAI":
-            login.login_openai(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
-        elif ACCOUNT_TYPE == "GOOGLE":
-            login.login_google_account(self.driver, email_address=EMAIL_ADDRESS, password=PASSWORD)
+
+        if account_type == "OPENAI":
+            login.login_openai(self.driver, email_address=email_address, password=password)
+        elif account_type == "GOOGLE":
+            login.login_google_account(self.driver, email_address=email_address, password=password)
         else:
             msg = "ACCOUNT_TYPE must be OPENAI or GOOGLE"
             raise ValueError(msg)
