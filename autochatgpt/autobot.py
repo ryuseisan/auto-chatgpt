@@ -12,14 +12,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from autochatgpt import login
 
-load_dotenv(verbose=False)
-AUTO_CHATGPT_EMAIL_ADDRESS = os.getenv("AUTO_CHATGPT_EMAIL_ADDRESS")
-AUTO_CHATGPT_PASSWORD = os.getenv("AUTO_CHATGPT_PASSWORD")
-AUTO_CHATGPT_ACCOUNT_TYPE = os.getenv("AUTO_CHATGPT_ACCOUNT_TYPE")
-
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.support.ui import WebDriverWait
+try:
+    load_dotenv(verbose=False)
+    AUTO_CHATGPT_EMAIL_ADDRESS = os.environ["AUTO_CHATGPT_EMAIL_ADDRESS"]
+    AUTO_CHATGPT_PASSWORD = os.environ["AUTO_CHATGPT_PASSWORD"]
+    AUTO_CHATGPT_ACCOUNT_TYPE = os.environ["AUTO_CHATGPT_ACCOUNT_TYPE"]
+except KeyError:
+    msg = "Please set environment variables. See README for details."
+    raise KeyError(msg)
 
 
 class AutoBot:
